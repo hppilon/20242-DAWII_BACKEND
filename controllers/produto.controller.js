@@ -60,3 +60,61 @@ exports.findOne = (req, res) => {
       })
     );
 };
+
+exports.update = (req, res) => {
+  const id = req.params.id;
+
+  Produto.update(req.body, {
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({ message: "Produto foi atualizado com sucesso" });
+      } else {
+        res.send({
+          message: `Não foi possível atualizar Produto com id=${id}. 
+          Talvez o produto não tenha sido encontrado ou req.body está vazio`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Erro ao atualizar produto com id=" + id,
+      });
+    });
+};
+
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  Produto.destroy({ where: { id: id } })
+    .then((num) => {
+      if (num == 1) {
+        res.send({ message: "Produto deletado com sucesso!" });
+      } else {
+        res.send({
+          message: "Não foi possível deletar o produto. Ele não foi encontrado",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Erro ao deletar produto com id=" + id,
+      });
+    });
+};
+
+exports.deleteAll = (req, res) => {
+  Produto.destroy({
+    where: {},
+    truncate: false,
+  })
+    .then((nums) => {
+      res.send({ message: `${nums} produtos foram deletados com sucesso` });
+    })
+    .catch((err) =>
+      res
+        .status(500)
+        .send({ message: err.message || "Erro ao deletar produtos" })
+    );
+};
