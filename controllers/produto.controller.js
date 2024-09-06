@@ -46,7 +46,7 @@ exports.findOne = (req, res) => {
 
   //include: db.lojas
   Produto.findByPk(id, { include: "loja" })
-    .then((data) => {
+    .then(async (data) => {
       if (data) {
         res.send(data);
       } else {
