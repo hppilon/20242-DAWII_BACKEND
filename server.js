@@ -31,6 +31,8 @@ app.get("/", function (req, res) {
 
 require("./routes/produto.routes")(app);
 require("./routes/loja.routes")(app);
+require("./routes/categoria.routes")(app);
+require("./routes/usuario.routes")(app);
 
 app.listen(8000, function (req, res) {
   console.log("App rodando na porta 8000");
